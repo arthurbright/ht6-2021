@@ -12,6 +12,8 @@ const { v4: uuidv4 } = require("uuid");
 
 
 
+
+
 // [TESTING] This function is called within the first transaction. It inserts some initial values into the "accounts" table.
 async function initTable(client, callback) {
     let i = 0;
