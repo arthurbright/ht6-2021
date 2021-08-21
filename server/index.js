@@ -15,7 +15,7 @@ app.use(express.static(path.resolve(__dirname, "../client/build")));
 
 //debug paths
 app.get("/geo", async (req, res)=>{
-  let data = await geo.getDestinations(43.858730, -79.286930, 3000, "restaurant");
+  let data = await geo.getDestinations(43.858730, -79.286930, 3000, "park");
   
   res.json(data);
 });

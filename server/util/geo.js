@@ -10,8 +10,8 @@ async function getDestinations(lat, long, radius, type){
         headers: {}
     }
     let data = await axios(query);
-    //console.log(data.data.results);
-    return data.data
+    console.log(data.data.results);
+    return data.data.results;
 }
 
 async function getReviews(lat, long, name){
@@ -55,8 +55,37 @@ async function getReviews(lat, long, name){
     return data2.data.reviews;
 }
 
+async function getList(lat, long, radius, types, numResults){
+    const result = [];
+    for(let i = 0; i < types.length; i ++){
+        let type = types[i];
+        let data = await getDestinations(lat, long, radius, type);
+
+        for(let j = 0; j < Math.min(numResults, data.length); j ++){
+            let entry = {};
+            entry.name = data[j].name;
+            entry.address = data[j].vicinity;
+            entry.latitude = data[j].geometry.location.latitude;
+            entry.longitude = data[j].geometry.location.longitude;
+            entry.rating = data[j].rating;
+            entry.numRatings = data[j].user_ratings_total;
+            entry.tags = data[j].types;
+
+            entry.priceLevel = null;
+
+            entry.photos = null;
+
+            
+        }
+    }
+
+}
+
+
 
 module.exports.getDestinations = getDestinations;
 module.exports.getReviews = getReviews;
+module.exports.getList = getList;
+
 
 
