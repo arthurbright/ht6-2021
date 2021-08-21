@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
 function App() {
-  // const [count, setCount] = useState(0);
+  const [count, setCount] = useState(0);
   // const [data, setData] = useState(null);
 
   // useEffect(() => {
@@ -19,7 +19,6 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <p>{data || "loading..."}</p>
       <p
         onClick={() => {
           alert("kachow");
