@@ -3,22 +3,17 @@ const express = require("express");
 const fs = require("fs");
 const path = require("path");
 const apiRoute = require("./routes/api");
-const mongoose = require("mongoose");
+const geo = require('./util/geo.js');
 
 //instantiate app
 const app = express();
 app.use(express.json());
 app.use("/api", apiRoute);
+
 //for development:
-// app.use("/static", express.static(__dirname + "client/public"));
-//for deployment:
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 
 //serve html
-//for development
-// res.sendFile(path.resolve(__dirname, "../client/public/index.html"));
-//for deployment
-
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
   // res.sendFile(__dirname + "/client/public/index.html", "utf-8");
