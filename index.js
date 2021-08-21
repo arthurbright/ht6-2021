@@ -9,9 +9,16 @@ const mongoose = require("mongoose");
 const app = express();
 app.use(express.json());
 app.use("/api", apiRoute);
+//for development:
 app.use("/static", express.static(__dirname + "client/public"));
+//for deployment:
+// app.use("/static", express.static(path.resolve(__dirname, "../client/build")));
 
 //serve html
+//for development
+// res.sendFile(path.resolve(__dirname, "../client/public/index.html"));
+//for deployment
+// res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
 app.get("*", (req, res) => {
   res.sendFile(__dirname + "/client/public/index.html", "utf-8");
 });
