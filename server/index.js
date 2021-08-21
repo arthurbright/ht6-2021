@@ -13,16 +13,25 @@ app.use("/api", apiRoute);
 //for development:
 app.use(express.static(path.resolve(__dirname, "../client/build")));
 
+//debug paths
+app.get("/geo", async (req, res)=>{
+  let data = await geo.getDestinations(43.858730, -79.286930, 3000, "restaurant");
+  
+  res.json(data);
+});
+
+app.get("/rev", async (req, res)=>{
+  let data = await geo.getReviews(43.8544773302915,-79.2540960197085, "Boston Pizza");
+  
+  res.json(data);
+});
+
 //serve html
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
-  // res.sendFile(__dirname + "/client/public/index.html", "utf-8");
 });
 
-//debug path
-app.get("/geo", (req, res)=>{
-  res.send("");
-})
+
 
 //run app
 const PORT = process.env.PORT || 3001;
