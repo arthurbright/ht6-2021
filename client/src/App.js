@@ -7,8 +7,9 @@ function App() {
 
   useEffect(() => {
     async function fetchData() {
+      console.log("test");
       let res = await fetch("/api/hi", {
-        method: 'GET'
+        method: "GET",
       });
       let resJson = await res.json();
       console.log(resJson);
