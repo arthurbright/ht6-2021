@@ -12,7 +12,7 @@ app.use("/api", apiRoute);
 //for development:
 // app.use("/static", express.static(__dirname + "client/public"));
 //for deployment:
-app.use("/static", express.static(path.resolve(__dirname, "../client/build")));
+app.use(express.static(path.resolve(__dirname, "../client/build")));
 
 //serve html
 //for development
