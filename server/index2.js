@@ -21,10 +21,21 @@ app.get("/geo", async (req, res)=>{
 });
 
 app.get("/rev", async (req, res)=>{
-  let data = await geo.getList(43.8544773302915,-79.2540960197085, 3000, ["restaurant"], 2);
+  let data = await geo.getReviews(43.8544773302915,-79.2540960197085, "Boston Pizza");
   
   res.json(data);
 });
+
+app.get("/list", async (req, res)=>{
+    let data = await geo.getList(43.8544773302915,-79.2540960197085, 3000, ["restaurant"], 2);
+    
+    res.json(data);
+  });
+
+app.get("/img", async (req, res)=>{
+    let data = await geo.getPhoto('Aap_uECCVYrMUn-KRncYM6L7L4iwMP8HpofWM7HRkCvp4XFczwh_sGMg8Ro0muXdxym-lXVF6JZEcZztSrTZqxrToJmI_GwMIVIdQF0PkzffBgkoP8evViYkZB0MdJBkNnN-GXyTL-WUARxlBjZier_lU3TLIDOw9COxBo8dlvJvzOgEIR7m');
+    res.send(data);
+})
 
 //serve html
 app.get("*", (req, res) => {
