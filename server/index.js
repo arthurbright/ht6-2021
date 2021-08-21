@@ -19,6 +19,11 @@ app.get("*", (req, res) => {
   // res.sendFile(__dirname + "/client/public/index.html", "utf-8");
 });
 
+//debug path
+app.get("/geo", (req, res)=>{
+  res.send("");
+})
+
 //run app
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
