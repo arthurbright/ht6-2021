@@ -83,9 +83,16 @@ async function getList(lat, long, radius, types, numResults){
             }
 
             //photos
-            entry.photos = null; //TODO
-
-            console.log(data[j].photos);
+            entry.photo = null; //TODO
+            if(data[j].photos.length > 0){
+                let photoUrl = await getPhoto(data[j].photos[0].photo_reference)
+                //set photo data
+                entry.photo = {
+                    url: photoUrl,
+                    width: data[j].photos[0].width,
+                    height: data[j].photos[0].height
+                }
+            }
 
 
             //reviews
@@ -109,16 +116,21 @@ async function getList(lat, long, radius, types, numResults){
 
 async function getPhoto(reference){
     let url = `https://maps.googleapis.com/maps/api/place/photo?photo_reference=${reference}&maxwidth=1000&key=${process.env.GOOGLEKEY}`;
-    console.log(url);
-    let prompt = {
+    let query = {
         method: 'get',
         url: url,
         headers: {}
     }
+    let p =  new Promise(resp =>{
+        axios(query).then(res=>{
+            resp(res.request._redirectable._options.href);
+        });
+    })
 
-    let data = await axios(prompt);
-    console.log(data.data);
-    return data.data;
+    let imgUrl = await p;
+    return imgUrl;
+    
+
 }
 
 
