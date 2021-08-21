@@ -57,11 +57,16 @@ async function getReviews(lat, long, name){
 
 async function getList(lat, long, radius, types, numResults){
     const result = [];
+    const resultIds = [];
     for(let i = 0; i < types.length; i ++){
         let type = types[i];
         let data = await getDestinations(lat, long, radius, type);
 
         for(let j = 0; j < Math.min(numResults, data.length); j ++){
+            if(resultIds.includes(data[j].place_id)){
+                continue;
+            }
+
             let entry = {};
             entry.name = data[j].name;
             entry.address = data[j].vicinity;
@@ -72,12 +77,32 @@ async function getList(lat, long, radius, types, numResults){
             entry.tags = data[j].types;
 
             entry.priceLevel = null;
+            if(data[j].price_level){
+                entry.priceLevel = data[j].price_level;
+            }
 
-            entry.photos = null;
+            entry.photos = null; //TODO
+
+            entry.reviews = null;
 
             
+
+            //do yelp reviews if type is yelp-friendly
+            let yelpable = ["amusement_park", "art_gallery", "aquarium", "beauty_salon", "book_store", "casino", "department_store", "electronics_store", "florist", "furniture_store", "gym", "hair_care", "hardware_store", "home_goods_store", "jewelry_store", "laundry", "library", "liquor_store", "lodging", "meal_delivery", "meal_takeaway", "movie_rental", "movie_theater", "museum", "pet_store", "restaurant", "shopping_mall", "shoe_store", "spa", "stadium", "store", "supermarket", "tourist_attraction", "zoo"];
+            if(yelpable.includes(type)){
+                let yelpReviews = await getReviews(entry.latitude, entry.longitude, entry.name);
+                entry.reviews = yelpReviews;
+                
+            }
+
+            result.push(entry);
+            resultIds.push(data[j].place_id);
         }
     }
+
+    return result;
+
+    
 
 }
 
