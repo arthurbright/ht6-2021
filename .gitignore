@@ -19,6 +19,7 @@
 .env.production.local
 .code-workspace
 ht6-2021.code-workspace
+.env
 
 npm-debug.log*
 yarn-debug.log*
