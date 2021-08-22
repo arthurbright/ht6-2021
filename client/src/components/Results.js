@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import starIcon from "../images/starIcon.png";
 
 const Results = (props) => {
-  const [completed, setCompleted] = useState(0);
   const [locations, setLocations] = useState([]);
 
   async function getData() {
@@ -19,7 +18,6 @@ const Results = (props) => {
     };
     let res = await fetch(url, options);
     let resJson = await res.json();
-    // setCompleted(resJson.completed || 0);
     setLocations([...resJson]);
   }
 
@@ -32,9 +30,7 @@ const Results = (props) => {
         <div className="poly2"></div>
         <div className="poly3"></div>
         <div className="resultsTitle">RESULTS</div>
-        <div className="resultsPlayerCount">
-          # of people completed: {completed}
-        </div>
+        <div className="resultsPlayerCount"># of people completed: 5</div>
         <div className="rect1"></div>
         <div className="rect2"></div>
         <div className="rect3"></div>
@@ -58,7 +54,12 @@ const Results = (props) => {
         </div>
         <div className="runnerOne"></div>
         <div className="runnerTwo"></div>
-        <button onClick={() => {}} className="findAnother">
+        <button
+          onClick={() => {
+            props.setPage("Home");
+          }}
+          className="findAnother"
+        >
           FIND ANOTHER ACTIVITY
         </button>
         <div className="first">

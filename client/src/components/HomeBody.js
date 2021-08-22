@@ -5,7 +5,7 @@ const HomeBody = (props) => {
     <div>
       <p className="homeText">
         Can't decide on a place to go?
-        {`Use ${props.appName} to find your next outing!`}
+        {`Use Bonfire to find your next outing!`}
       </p>
       <button
         className="button"
