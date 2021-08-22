@@ -88,6 +88,12 @@ router.post('/create_room', function(req, res) {
 
     Rooms.sync({force: false})
     .then(async function () {
+        let choices = []
+        let geoData = await geo.getList(location_parameters.latitude, location_parameters.longitude, location_parameters.radius, location_parameters.types, location_parameters.numResults);
+        for(let i = 0; i < geoData.length(); i ++){
+            choices.push(0);
+        }
+        
         return Rooms.bulkCreate([
             {
                 // Room Fields
@@ -98,8 +104,8 @@ router.post('/create_room', function(req, res) {
                 accepting_responses : true,
                 email : email,
                 location_parameters : location_parameters,
-                options : null/*await geo.getList(location_parameters)*/,
-                choices : [],
+                options : geoData,
+                choices : choices
             }
         ]);
     })
