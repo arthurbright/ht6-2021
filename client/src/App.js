@@ -6,6 +6,7 @@ import Results from "./components/Results";
 
 function App() {
   const [page, setPage] = useState("CreateRoom");
+  const [roomCode, setRoomCode] = useState("");
 
   async function getData(url) {
     let res = await fetch(url);
@@ -17,7 +18,7 @@ function App() {
   return (
     <div>
       {(page === "Home" || page === "CreateRoom" || page === "JoinRoom") && (
-        <Home appName="CHANGE THIS" page={page} setPage={setPage} />
+        <Home appName="CHANGE THIS" page={page} setPage={setPage} roomCode={roomCode}/>
       )}
       {page === "Instructions" && (
         <Instructions appName="CHANGE THIS" setPage={setPage} />
