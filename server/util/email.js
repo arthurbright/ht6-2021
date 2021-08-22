@@ -20,16 +20,16 @@ var mailOptions = {
     html: '<h1>Welcome</h1><p>That was easy!</p><img src=https://upload.wikimedia.org/wikipedia/commons/a/a1/Mallard2.jpg/>'
 };
 
-function sendReminderEmail(to_address) {
+function sendReminderEmail(to_address, room_code) {
     let mail = {
         from: BONFIRE_EMAIL,
         to: to_address,
         bcc: 'kevin203@gmail.com, artb1234567@gmail.com',
 
         // EMAIL CONTENTS GO HERE
-        subject: 'Sending Email using Node.js',
-        text: 'That was easy!',
-        html: '<h1>Welcome</h1><p>That was easy!</p><img src=https://upload.wikimedia.org/wikipedia/commons/a/a1/Mallard2.jpg/>'
+        subject: 'Your Bonfire Room',
+        text: `Hi there, fellow Bonfire user!\nYour Bonfire room ${room_code} has ended.`,
+        //html: '<h1>Welcome</h1><p>That was easy!</p><img src=https://upload.wikimedia.org/wikipedia/commons/a/a1/Mallard2.jpg/>'
     };
 }
 
