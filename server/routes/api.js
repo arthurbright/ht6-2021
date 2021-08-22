@@ -3,18 +3,8 @@ require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 
-const fs = require("fs");
-
-// Database Shenanigans
-const parse = require("pg-connection-string").parse;
-const { Pool } = require("pg");
-const prompt = require("prompt");
-const { execSync } = require("child_process");
-const { v4: uuidv4 } = require("uuid");
-
 // Connecting to CockroachDB through Sequelize
 const Sequelize = require("sequelize-cockroachdb");
-const { prependOnceListener } = require("process");
 var sequelize = new Sequelize({
     dialect: "postgres",
     username: "test_app",
@@ -24,16 +14,14 @@ var sequelize = new Sequelize({
     database: "kindling-3054.defaultdb",
     dialectOptions: {
         ssl: {
-      
-      //For secure connection:
-        /*ca: fs.readFileSync('YOURPATH/cc-ca.crt')
-            .toString()*/
+            //For secure connection (remember to require fs):
+            /*ca: fs.readFileSync('YOURPATH/cc-ca.crt').toString()*/
         },
     },
     logging: false, 
 });
 
-
+const geo = require("../util/geo.js");
 
 const Rooms = sequelize.define("rooms", {
     id: {
@@ -41,118 +29,131 @@ const Rooms = sequelize.define("rooms", {
         autoIncrement: true,
         primaryKey: true,
     },
-    name: {
+    room_code: {
         type: Sequelize.TEXT,
     },
-    phoneNumber: {
+    expected_users: {
         type: Sequelize.INTEGER,
     },
-});
-
-const People = sequelize.define("people", {
-    id: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true, 
-        primaryKey: true,
+    responded_users: {
+        type: Sequelize.JSON,
     },
-    name: {
+    expire: {
+        type: Sequelize.DATE,
+    },
+    accepting_responses: {
+        type: Sequelize.BOOLEAN,
+    },
+    email: {
         type: Sequelize.TEXT,
     },
-    phoneNumber: {
-        type: Sequelize.INTEGER,
+    location_parameters: {
+        type: Sequelize.JSON,
+    },
+    options: {
+        type: Sequelize.JSON,
+    },
+    choices: {
+        type: Sequelize.JSON,
     },
 });
 
+const room_codes = new Set();
 
-// Testing
+function generate_room_code() {
+    room_codes.add("");
+    let ret = "";
+    let attempts = 0;
+    while (room_codes.has(ret)) {
+        let room_code_num = Math.floor(Math.random()*Math.pow(26, 4));
+        ret = "";
+        for (let i = 0; i < 4; i++) {
+            ret = String.fromCharCode(65 + room_code_num % 26) + ret;
+            room_code_num = Math.floor(room_code_num/26);
+        }
+        if (attempts++ > 100) {
+            throw exception;
+        }
+    }
+    room_codes.add(ret);
+    return ret;
+}
 
-router.get('/hi', (req, res)=>{
-    res.json({
-        lavan: 420
-    })
-});
+router.post('/create_room', function(req, res) {
 
-router.get('/kevin_test', (req, res)=>{
-    res.json({
-        pi: 3.14
-    })
-});
+    let room_code = generate_room_code();
+    let expected_users = req.body.expected_users;
+    let email = req.body.email;
+    let location_parameters = req.body.location_parameters;
 
-
-// Add entry to Sequelize DB
-/*
-router.post('/submit', function(req, res) {
-    
-    Rooms.sync({force:false})
-        .then(function () {
+    Rooms.sync({force: false})
+    .then(async function () {
+        let choices = []
+        let geoData = await geo.getList(location_parameters.latitude, location_parameters.longitude, location_parameters.radius, location_parameters.types, location_parameters.numResults);
+        for(let i = 0; i < geoData.length(); i ++){
+            choices.push(0);
+        }
         
-            return Rooms.bulkCreate([
-
-
-            ]);
-        })
-
-        .catch(function (err) {
-            console.error("error: " + err.message);
-        });
-
-        res.send('Submitted Successfully!<br /> [confirmation]');
-
-
-});*/
-//Handle submitted form data
- 
-router.post('/submit', function (req, res) {
- 
-    //Get our values submitted from the form
-    var fromName = req.body.name;
-    var fromPhone = req.body.phone;
- 
-    //Add our POST data to CockroachDB via Sequelize
-    People.sync({
-        force: false,
-    })
-        .then(function () {
-        // Insert new data into People table
-        return People.bulkCreate([
+        return Rooms.bulkCreate([
             {
-            name: fromName,
-            phoneNumber: fromPhone,
-            },
+                // Room Fields
+                room_code : room_code,
+                expected_users : expected_users,
+                responded_users : [],
+                expire : Date.now(),
+                accepting_responses : true,
+                email : email,
+                location_parameters : location_parameters,
+                options : geoData,
+                choices : choices
+            }
         ]);
-        })
- 
-    	  //Error handling for database errors
-        .catch(function (err) {
+    })
+    // Handle database errors
+    .catch(function (err) {
         console.error("error: " + err.message);
-        });    
-        
-        //Tell them it was a success
-        res.send('Submitted Successfully!<br /> Name:  ' + fromName + '<br />Phone:  ' + fromPhone);
+    });  
+    res.send({"room_code" : room_code});
+});
+
+router.get('/join_room', async function(req, res) {
+    let room_code = req.query.room_code;
+
+    // TODO: UPDATE BASED ON LAVANS NEEDS
+    const retrieveStatement = "SELECT * FROM rooms WHERE room_code = '" + room_code + "'";
+    let data = (await sequelize.query(retrieveStatement))[0];
+    res.send(data);
+
+    console.log(data);
+
+
+});
+
+router.post('/submit_choices', function(req, res) {
+    // TODO
+
+    
+
+});
+
+router.delete('/delete_room', async function(req, res) {
+    let room_code = req.body.room_code;
+    const deleteStatement = "DELETE FROM rooms WHERE room_code = '" + room_code + "'";
+    await sequelize.query(deleteStatement);
+    res.send("Room " + room_code + " was deleted successfully.");
 });
 
 router.get('/list', (req, res) => {
  
     //Get our data from CockroachDB
-    People.sync({
-         force:false,
-    })
+    Rooms.sync({force:false,})
     .then(function() {
-       return People.findAll();
+       return Rooms.findAll();
     })
-        
-    .then(function (people) {
-        //Render output from CockroachDB using our PUG template
-        //res.render('list', { people : people });
-
-        /*people.forEach(function (person) {
-            res.json(person);
-        });*/
-        res.json(people);
-        
+    .then(function (room) {  
+        res.json(room);
     })
  
 })
-
 
 module.exports = router;

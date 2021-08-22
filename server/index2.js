@@ -28,7 +28,7 @@ app.get("/rev", async (req, res)=>{
 
 app.get("/list", async (req, res)=>{
     let data = await geo.getList(43.8544773302915,-79.2540960197085, 3000, ["restaurant"], 2);
-    
+    //console.log(data[0].reviews[0]);
     res.json(data);
   });
 
