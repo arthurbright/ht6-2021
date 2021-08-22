@@ -9,6 +9,7 @@ const CreateRoom = (props) => {
   const [email, setEmail] = useState("");
   const [userLatitude, setUserLatitude] = useState("");
   const [userLongitude, setUserLongitude] = useState("");
+  const [code, setCode] = useState("");
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -32,7 +33,7 @@ const CreateRoom = (props) => {
     let activityTypes = value.map((activity) => {
       return activity.val;
     });
-    
+
     let data = {
       expected_users: parseInt(expectedUsers),
       email: email,
@@ -55,9 +56,10 @@ const CreateRoom = (props) => {
       },
       body: JSON.stringify(data),
     };
-    let res = await fetch(url, options);
-    let resJson = await res.json();
-    console.log(resJson);
+    // let res = await fetch(url, options);
+    // let resJson = await res.json();
+    // console.log(resJson);
+    // setCode(resJson["room_code"]);
   }
 
   return (
@@ -109,11 +111,13 @@ const CreateRoom = (props) => {
         className="button"
         style={{
           top: "704px",
-          background: "rgba(26, 147, 111, 0.6)",
+          background: "rgba(216, 55, 20, 0.83)",
           color: "#ffffff",
         }}
         onClick={() => {
           sendOptions();
+          props.setRoomCode(code);
+          props.setPage("Instructions");
         }}
       >
         CREATE ROOM

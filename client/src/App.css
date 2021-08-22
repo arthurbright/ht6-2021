@@ -7,44 +7,63 @@ body {
   width: 375px;
   height: 812px;
   overflow: hidden;
-  background-color: #114b5f;
+  background-color: #7b1d17;
   z-index: -2;
 }
 
 .poly1 {
   position: absolute;
-  width: 410px;
-  height: 606px;
-  left: 46px;
-  top: 389px;
+  width: 318px;
+  height: 513px;
+  left: 151px;
+  top: 462px;
 
-  background: #1a936f;
+  background: #e65527;
   filter: blur(200px);
   border-radius: 52px;
-  z-index: -1;
 }
 
 .poly2 {
   position: absolute;
-  width: 207px;
-  height: 277px;
-  left: -74px;
-  top: 163px;
-  z-index: -1;
+  width: 239px;
+  height: 220px;
+  left: -39px;
+  top: -33px;
 
-  background: #88d498;
-  filter: blur(100px);
+  background: #ffd568;
+  filter: blur(200px);
 }
 
 .poly3 {
   position: absolute;
+  width: 147px;
+  height: 331px;
+  left: 301px;
+  top: 217px;
+
+  background: #c68a30;
+  filter: blur(100px);
+}
+
+.poly4 {
+  position: absolute;
+  width: 268px;
+  height: 246px;
+  left: -183px;
+  top: 425px;
+
+  background: #c68a30;
+  filter: blur(100px);
+}
+
+.poly5 {
+  position: absolute;
   width: 513.32px;
   height: 677.27px;
-  left: 81.79px;
-  top: -339px;
-  z-index: -1;
+  left: 70px;
+  top: -172px;
 
-  background: #1a936f;
+  background: #e65527;
   filter: blur(200px);
 }
 
@@ -57,16 +76,17 @@ body {
   border-radius: 50%;
   z-index: -1;
 
-  background: rgba(252, 244, 227, 0.7);
-
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 #logoImg {
-  width: 200px;
-  height: auto;
+  position: absolute;
+  width: 360px;
+  height: 450px;
+  right: -56px;
+  top: -75px;
 }
 
 .homeText {
@@ -133,7 +153,7 @@ body {
   font-weight: bold;
   font-size: 30px;
   line-height: 30px;
-  color: #88d498;
+  color: #e55527;
   text-align: center;
 }
 
@@ -171,21 +191,23 @@ body {
 
 .instructionTitle {
   position: absolute;
-  width: 241px;
-  height: 42px;
-  left: 65px;
-  top: -14px;
+  width: 231px;
+  height: 54px;
+  left: 72px;
+  top: -20px;
 
   font-family: Aleo;
   font-style: normal;
   font-weight: bold;
-  font-size: 40px;
-  line-height: 48px;
+  font-size: 45px;
+  line-height: 54px;
+  /* identical to box height */
+
   text-align: center;
 
   color: #ffffff;
 
-  text-shadow: 0px 4px 5px rgba(243, 233, 210, 0.25);
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .instructionText {
@@ -193,7 +215,7 @@ body {
   width: 216px;
   height: 30px;
   left: 78px;
-  top: 170px;
+  top: 110px;
 
   font-family: Roboto;
   font-style: normal;
@@ -219,15 +241,55 @@ body {
   background: rgba(252, 244, 227, 0.57);
 }
 
+.instructionSubtext {
+  position: absolute;
+  width: 303px;
+  height: 100px;
+  left: 36px;
+  top: 162px;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 25px;
+  /* or 125% */
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  color: #ffffff;
+}
+
 .heartIcon {
   position: absolute;
-  width: 45px;
-  height: 45px;
-  left: 60px;
-  right: 275.03px;
-  top: 301px;
-  bottom: 473.88px;
-  color: rgba(255, 255, 255, 1);
+  height: 44px;
+  width: auto;
+  left: 61px;
+  right: 294.03px;
+  top: 323px;
+  bottom: 424.88px;
+}
+
+.xIcon {
+  position: absolute;
+  height: 65px;
+  width: auto;
+  left: 51px;
+  right: 294.03px;
+  top: 439px;
+  bottom: 424.88px;
+}
+
+.upIcon {
+  position: absolute;
+  height: 50px;
+  width: auto;
+  left: 64px;
+  right: 294.03px;
+  top: 575px;
+  bottom: 424.88px;
 }
 
 .selectActivities {
@@ -349,4 +411,73 @@ body {
   text-align: center;
 
   color: #e65527;
+}
+
+input:focus {
+  outline: none !important;
+  border-color: rgba(216, 55, 20, 0.83);
+  box-shadow: 0 0 10px rgba(216, 55, 20, 0.83);
+}
+
+.heartIconText {
+  position: absolute;
+  width: 248px;
+  height: 30px;
+  left: 130px;
+  top: 305px;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 30px;
+  /* identical to box height, or 136% */
+
+  display: flex;
+  align-items: center;
+  text-align: right;
+
+  color: #ffffff;
+}
+
+.xIconText {
+  position: absolute;
+  width: 248px;
+  height: 30px;
+  left: 130px;
+  top: 435px;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 30px;
+  /* identical to box height, or 136% */
+
+  display: flex;
+  align-items: center;
+  text-align: right;
+
+  color: #ffffff;
+}
+
+.upIconText {
+  position: absolute;
+  width: 248px;
+  height: 30px;
+  left: 130px;
+  top: 566px;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 30px;
+  /* identical to box height, or 136% */
+
+  display: flex;
+  align-items: center;
+  text-align: right;
+
+  color: #ffffff;
 }

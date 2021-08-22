@@ -5,7 +5,7 @@ const JoinRoom = (props) => {
 
   async function joinRoomFunc(code) {
     console.log(code);
-    // let res = await fetch(`/api/${code}`);
+    // let res = await fetch(`/api/join_room?room_code=${code}`);
     // let resJson = await res.json();
     // console.log(resJson);
   }
@@ -40,7 +40,7 @@ const JoinRoom = (props) => {
         className="button"
         style={{
           top: "704px",
-          background: "rgba(26, 147, 111, 0.6)",
+          background: "rgba(216, 55, 20, 0.83)",
           color: "#ffffff",
         }}
         onClick={() => {
