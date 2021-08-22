@@ -55,7 +55,7 @@ const Rooms = sequelize.define("rooms", {
         type: Sequelize.JSON,
     },
     choices: {
-        type: Sequelize.ARRAY(Sequelize.INTEGER),
+        type: Sequelize.ARRAY(Sequelize.FLOAT),
     },
 });
 
