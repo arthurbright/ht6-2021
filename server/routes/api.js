@@ -54,45 +54,47 @@ const Rooms = sequelize.define("rooms", {
     options: {
         type: Sequelize.JSON,
     },
-    choices: {
+    votes: {
         type: Sequelize.ARRAY(Sequelize.FLOAT),
     },
 });
 
-const room_codes = new Set();
+// Checks if a specific room from the database exists
+async function hasRoom(room_code) {
+    const retrieveStatement = "SELECT * FROM rooms WHERE room_code = '" + room_code + "'";
+    return (await sequelize.query(retrieveStatement))[0][0] != undefined;
+}
 
-function generate_room_code() {
-    room_codes.add("");
-    let ret = "";
+async function generate_room_code() {
+    let room_code = "";
     let attempts = 0;
-    while (room_codes.has(ret)) {
+    while (room_code == "" || await hasRoom(room_code)) {
         let room_code_num = Math.floor(Math.random()*Math.pow(26, 4));
-        ret = "";
+        room_code = "";
         for (let i = 0; i < 4; i++) {
-            ret = String.fromCharCode(65 + room_code_num % 26) + ret;
+            room_code = String.fromCharCode(65 + room_code_num % 26) + room_code;
             room_code_num = Math.floor(room_code_num/26);
         }
         if (attempts++ > 100) {
             throw exception;
         }
     }
-    room_codes.add(ret);
-    return ret;
+    return room_code;
 }
 
-router.post('/create_room', function(req, res) {
+router.post('/create_room', async function(req, res) {
 
-    let room_code = generate_room_code();
+    let room_code = await generate_room_code();
     let expected_users = req.body.expected_users;
     let notif_email = req.body.email;
     let location_parameters = req.body.location_parameters;
 
     Rooms.sync({force: false})
     .then(async function () {
-        let choices = []
+        let votes = []
         let geoData = await geo.getList(location_parameters.latitude, location_parameters.longitude, location_parameters.radius, location_parameters.types, location_parameters.numResults);
         for(let i = 0; i < geoData.length; i ++){
-            choices.push(0);
+            votes.push(0);
         }
         
         return Rooms.bulkCreate([
@@ -106,7 +108,7 @@ router.post('/create_room', function(req, res) {
                 email : notif_email,
                 location_parameters : location_parameters,
                 options : geoData,
-                choices : choices
+                votes : votes
             }
         ]);
     })
@@ -125,6 +127,10 @@ async function getRoom(room_code) {
 
 router.get('/join_room', async function(req, res) {
     let room_code = req.query.room_code;
+    if (!(await hasRoom(room_code))) {
+        res.send("Room not found.");
+        return;
+    }
     let data = await getRoom(room_code);
     
     // If form is open
@@ -149,13 +155,21 @@ router.get('/join_room', async function(req, res) {
 router.post('/submit_choices', async function(req, res) {
     let respondent_name = req.body.respondent_name;
     let room_code = req.body.room_code;
+    if (!(await hasRoom(room_code))) {
+        res.send("Room not found.");
+        return;
+    }
     let data = await getRoom(room_code);
     
     // Submit votes
     let votes = req.body.votes;
     for (let i = 0; i < votes.length; i++) {
-        if (votes[i]) data.choices[i]++;
+        if (votes[i]) data.votes[i]++;
     }
+    const updateVotes = "UPDATE rooms SET votes = '{" + data.votes + "}' WHERE room_code = '" + room_code + "'";
+    console.log(updateVotes);
+    await sequelize.query(updateVotes);
+
 
     // Add respondent to the list of all respondents
     const addRespondentName = "UPDATE rooms SET responded_users = ARRAY_APPEND(responded_users, '" + respondent_name + "') WHERE room_code = '" + room_code + "'";
@@ -180,12 +194,21 @@ async function closeRoom(data) {
     email.sendReminderEmail(data.email, data.room_code);
 }
 
-router.get('/view_results', function(req, res) {
+router.get('/view_results', async function(req, res) {
     let room_code = req.body.room_code;
+    if (!(await hasRoom(room_code))) {
+        res.send("Room not found.");
+        return;
+    }
 });
 
 router.delete('/delete_room', async function(req, res) {
     let room_code = req.body.room_code;
+    if (!(await hasRoom(room_code))) {
+        res.send("Room not found.");
+        return;
+    }
+    room_codes.delete(room_code);
     const deleteStatement = "DELETE FROM rooms WHERE room_code = '" + room_code + "'";
     await sequelize.query(deleteStatement);
     res.send("Room " + room_code + " was deleted successfully.");
