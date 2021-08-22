@@ -30,7 +30,6 @@ const JoinRoom = (props) => {
         className="joinCode"
         style={{
           background: "rgba(255, 255, 255, 0.9)",
-          color: "#88D498",
         }}
         onChange={(e) => {
           setRoomCode(e.target.value);

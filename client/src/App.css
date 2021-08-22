@@ -256,3 +256,97 @@ body {
 
   color: #e65527;
 }
+
+.setUpRoomText {
+  position: absolute;
+  width: 303px;
+  height: 36px;
+  left: 34px;
+  top: 355px;
+
+  font-family: Aleo;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 30px;
+  line-height: 36px;
+  /* identical to box height */
+
+  text-align: center;
+
+  color: #ffffff;
+}
+
+.expectedUsers {
+  position: absolute;
+  width: 109px;
+  height: 62px;
+  left: 68px;
+  top: 537px;
+
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 18px;
+  border: none;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 30px;
+  /* identical to box height, or 167% */
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  color: #e65527;
+}
+
+.maxDist {
+  position: absolute;
+  width: 109px;
+  height: 62px;
+  left: 195px;
+  top: 537px;
+
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 18px;
+  border: none;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 30px;
+  /* identical to box height, or 167% */
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  color: #e65527;
+}
+
+.emailInput {
+  position: absolute;
+  width: 236px;
+  height: 62px;
+  left: 68px;
+  top: 620px;
+
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 18px;
+  border: none;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 30px;
+  /* identical to box height, or 167% */
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  color: #e65527;
+}
