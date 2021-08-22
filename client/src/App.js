@@ -5,7 +5,7 @@ import Room from "./components/Room";
 import Results from "./components/Results";
 
 function App() {
-  const [page, setPage] = useState("Results");
+  const [page, setPage] = useState("Home");
   const [roomCode, setRoomCode] = useState("");
   const [name, setName] = useState("");
 

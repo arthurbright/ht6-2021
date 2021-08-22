@@ -5,20 +5,11 @@ const Results = (props) => {
   const [locations, setLocations] = useState([]);
 
   async function getData() {
-    let url = "";
-    let reqBody = {
-      room_code: props.roomCode,
-    };
-    let options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(reqBody),
-    };
-    let res = await fetch(url, options);
+    let url = `/api/view_results?room_code=${props.roomCode}`;
+    let res = await fetch(url);
     let resJson = await res.json();
     setLocations([...resJson]);
+    // console.log(locations);
   }
 
   document.onload = getData();
@@ -63,20 +54,19 @@ const Results = (props) => {
           FIND ANOTHER ACTIVITY
         </button>
         <div className="first">
-          {(locations[0] && locations[0].location.name) ||
-            "Canada's Wonderland"}
+          {(locations[0] && locations[0].options.name) || ""}
         </div>
         <div className="second">
-          {(locations[1] && locations[1].location.name) || "CF Markville"}
+          {(locations[1] && locations[1].options.name) || ""}
         </div>
         <div className="third">
-          {(locations[2] && locations[2].location.name) || "The Hub"}
+          {(locations[2] && locations[2].options.name) || ""}
         </div>
         <div className="fourth">
-          {(locations[3] && locations[3].location.name) || "Boston Pizza"}
+          {(locations[3] && locations[3].options.name) || ""}
         </div>
         <div className="five">
-          {(locations[4] && locations[4].location.name) || "Good Catch"}
+          {(locations[4] && locations[4].options.name) || ""}
         </div>
       </div>
     </div>
