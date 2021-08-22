@@ -121,11 +121,26 @@ const CreateRoom = (props) => {
         onClick={() => {
           sendOptions();
           props.setRoomCode(code);
-          props.setPage("Instructions");
+          setTimeout(function () {
+            props.setPage("JoinRoom");
+          }, 5000);
         }}
       >
         CREATE ROOM
       </button>
+      {code && (
+        <p className="newLink">
+          Your room code is{" "}
+          <span
+            style={{
+              color: "#000000",
+              fontWeight: "bold",
+            }}
+          >
+            {code}
+          </span>
+        </p>
+      )}
     </div>
   );
 };

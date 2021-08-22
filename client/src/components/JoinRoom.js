@@ -2,9 +2,12 @@ import React, { useState } from "react";
 
 const JoinRoom = (props) => {
   const [roomCodeInput, setRoomCodeInput] = useState("");
+  const [name, setName] = useState("");
 
-  async function joinRoomFunc(code) {
-    console.log(code);
+  async function joinRoomFunc() {
+    console.log(roomCodeInput);
+    props.setRoomCode(roomCodeInput);
+    props.setName(name);
     // let res = await fetch(`/api/join_room?room_code=${code}`);
     // let resJson = await res.json();
     // console.log(resJson);
@@ -30,10 +33,24 @@ const JoinRoom = (props) => {
         className="joinCode"
         style={{
           background: "rgba(255, 255, 255, 0.9)",
+          top: "620px",
         }}
         value={roomCodeInput}
         onChange={(e) => {
           setRoomCodeInput(e.target.value);
+        }}
+      />
+      <input
+        placeholder="NAME"
+        type="text"
+        className="joinCode"
+        style={{
+          background: "rgba(255, 255, 255, 0.9)",
+          top: "540px",
+        }}
+        value={name}
+        onChange={(e) => {
+          setName(e.target.value);
         }}
       />
 
@@ -45,7 +62,7 @@ const JoinRoom = (props) => {
           color: "#ffffff",
         }}
         onClick={() => {
-          joinRoomFunc(roomCodeInput);
+          joinRoomFunc();
           props.setPage("Instructions");
         }}
       >
