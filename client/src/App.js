@@ -13,7 +13,7 @@ function App() {
     <div>
       {(page === "Home" || page === "CreateRoom" || page === "JoinRoom") && (
         <Home
-          appName="CHANGE THIS"
+          appName="Bonfire"
           page={page}
           setPage={setPage}
           roomCode={roomCode}

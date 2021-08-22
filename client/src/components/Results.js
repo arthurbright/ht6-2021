@@ -58,6 +58,9 @@ const Results = (props) => {
         </div>
         <div className="runnerOne"></div>
         <div className="runnerTwo"></div>
+        <button onClick={() => {}} className="findAnother">
+          FIND ANOTHER ACTIVITY
+        </button>
         <div className="first">
           {(locations[0] && locations[0].location.name) ||
             "Canada's Wonderland"}
@@ -74,7 +77,6 @@ const Results = (props) => {
         <div className="five">
           {(locations[4] && locations[4].location.name) || "Good Catch"}
         </div>
-        <div className="findAnother"><p className="findText">FIND ANOTHER ACTIVITY</p></div>
       </div>
     </div>
   );

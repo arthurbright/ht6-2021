@@ -933,14 +933,7 @@ input:focus {
 
   background: #e65527;
   border-radius: 18px;
-}
-
-.findText {
-  position: absolute;
-  width: 250px;
-  height: 21.29px;
-  left: 63px;
-  top: 725.35px;
+  border: none;
 
   font-family: Roboto;
   font-style: normal;
