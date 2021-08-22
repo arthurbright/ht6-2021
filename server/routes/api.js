@@ -22,6 +22,7 @@ var sequelize = new Sequelize({
 });
 
 const geo = require("../util/geo.js");
+const email = require("../util/email.js");
 
 const Rooms = sequelize.define("rooms", {
     id: {
@@ -154,6 +155,10 @@ router.get('/list', (req, res) => {
         res.json(room);
     })
  
+})
+
+router.get('/email', (req, res) => {
+    email.sendTestMail();
 })
 
 module.exports = router;
