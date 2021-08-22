@@ -58,8 +58,6 @@ const Rooms = sequelize.define("rooms", {
     },
 });
 
-
-
 const room_codes = new Set();
 
 function generate_room_code() {
@@ -83,6 +81,7 @@ function generate_room_code() {
 
 router.post('/create_room', function(req, res) {
 
+    let room_code = generate_room_code();
     let expected_users = req.body.expected_users;
     let email = req.body.email;
     let location_parameters = req.body.location_parameters;
@@ -92,7 +91,7 @@ router.post('/create_room', function(req, res) {
         return Rooms.bulkCreate([
             {
                 // Room Fields
-                room_code : generate_room_code(),
+                room_code : room_code,
                 expected_users : expected_users,
                 responded_users : [],
                 expire : Date.now(),
@@ -108,7 +107,7 @@ router.post('/create_room', function(req, res) {
     .catch(function (err) {
         console.error("error: " + err.message);
     });  
-    res.send('Room Created Successfully!');
+    res.send({"room_code" : room_code});
 });
 
 router.get('/join_room', async function(req, res) {
