@@ -101,7 +101,7 @@ router.post('/create_room', function(req, res) {
                 room_code : room_code,
                 expected_users : expected_users,
                 responded_users : [],
-                expire : Date.now(),
+                expire : Date.now() + 24 * 60 * 60 * 1000,
                 accepting_responses : true,
                 email : email,
                 location_parameters : location_parameters,
@@ -122,10 +122,10 @@ router.get('/join_room', async function(req, res) {
 
     // TODO: UPDATE BASED ON LAVANS NEEDS
     const retrieveStatement = "SELECT * FROM rooms WHERE room_code = '" + room_code + "'";
-    let data = (await sequelize.query(retrieveStatement))[0];
-    res.send(data);
+    let data = (await sequelize.query(retrieveStatement))[0][0];
+    res.send(data.options);
 
-    console.log(data);
+    console.log(data.options);
 
 
 });
