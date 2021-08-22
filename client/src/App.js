@@ -5,7 +5,7 @@ import Room from "./components/Room";
 import Results from "./components/Results";
 
 function App() {
-  const [page, setPage] = useState("CreateRoom");
+  const [page, setPage] = useState("Home");
   const [roomCode, setRoomCode] = useState("");
 
   async function getData(url) {
@@ -18,12 +18,16 @@ function App() {
   return (
     <div>
       {(page === "Home" || page === "CreateRoom" || page === "JoinRoom") && (
-        <Home appName="CHANGE THIS" page={page} setPage={setPage} roomCode={roomCode}/>
+        <Home
+          appName="CHANGE THIS"
+          page={page}
+          setPage={setPage}
+          roomCode={roomCode}
+          setRoomCode={setRoomCode}
+        />
       )}
-      {page === "Instructions" && (
-        <Instructions appName="CHANGE THIS" setPage={setPage} />
-      )}
-      {page === "Room" && <Room appName="CHANGE THIS" setPage={setPage} />}
+      {page === "Instructions" && <Instructions setPage={setPage} />}
+      {page === "Room" && <Room setPage={setPage} />}
       {page === "Results" && (
         <Results appName="CHANGE THIS" setPage={setPage} />
       )}
