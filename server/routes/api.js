@@ -128,7 +128,7 @@ async function getRoom(room_code) {
 router.get('/join_room', async function(req, res) {
     let room_code = req.query.room_code;
     if (!(await hasRoom(room_code))) {
-        res.send("Room not found.");
+        res.send(-1);
         return;
     }
     let data = await getRoom(room_code);
@@ -156,7 +156,7 @@ router.post('/submit_choices', async function(req, res) {
     let respondent_name = req.body.respondent_name;
     let room_code = req.body.room_code;
     if (!(await hasRoom(room_code))) {
-        res.send("Room not found.");
+        res.send(-1);
         return;
     }
     let data = await getRoom(room_code);
@@ -197,7 +197,7 @@ async function closeRoom(data) {
 router.get('/view_results', async function(req, res) {
     let room_code = req.query.room_code;
     if (!(await hasRoom(room_code))) {
-        res.send("Room not found.");
+        res.send(-1);
         return;
     }
     let data = await getRoom(room_code);
@@ -213,7 +213,7 @@ router.get('/view_results', async function(req, res) {
 router.delete('/delete_room', async function(req, res) {
     let room_code = req.body.room_code;
     if (!(await hasRoom(room_code))) {
-        res.send("Room not found.");
+        res.send(-1);
         return;
     }
     room_codes.delete(room_code);
