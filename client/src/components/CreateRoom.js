@@ -17,6 +17,8 @@ const CreateRoom = (props) => {
       setUserLongitude(position.coords.longitude);
       console.log(userLatitude + " " + userLongitude);
     });
+
+    return () => {};
   }, []);
 
   async function sendOptions() {
@@ -56,10 +58,11 @@ const CreateRoom = (props) => {
       },
       body: JSON.stringify(data),
     };
-    // let res = await fetch(url, options);
-    // let resJson = await res.json();
-    // console.log(resJson);
-    // setCode(resJson["room_code"]);
+    let res = await fetch(url, options);
+    let resJson = await res.json();
+    console.log(resJson);
+    setCode(resJson["room_code"]);
+    console.log(code);
   }
 
   return (
@@ -83,7 +86,8 @@ const CreateRoom = (props) => {
       />
       <input
         placeholder="MAX DIST (km)"
-        maxLength="3"
+        maxLength="4"
+        max="25"
         pattern="[0-9]{3}"
         type="text"
         className="maxDist"

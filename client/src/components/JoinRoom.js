@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const JoinRoom = (props) => {
-  const [roomCode, setRoomCode] = useState("");
+  const [roomCodeInput, setRoomCodeInput] = useState("");
 
   async function joinRoomFunc(code) {
     console.log(code);
@@ -31,8 +31,9 @@ const JoinRoom = (props) => {
         style={{
           background: "rgba(255, 255, 255, 0.9)",
         }}
+        value={roomCodeInput}
         onChange={(e) => {
-          setRoomCode(e.target.value);
+          setRoomCodeInput(e.target.value);
         }}
       />
 
@@ -44,7 +45,7 @@ const JoinRoom = (props) => {
           color: "#ffffff",
         }}
         onClick={() => {
-          joinRoomFunc(roomCode);
+          joinRoomFunc(roomCodeInput);
           props.setPage("Instructions");
         }}
       >

@@ -1,22 +1,34 @@
-import React, {useEffect} from 'react'
+import React, { useState, useEffect } from "react";
 
 const Room = (props) => {
+  const [data, setData] = useState("");
 
-    // async function getImages() {
-    //     let res = await fetch("api/");
-    //     let resJson = await res.json();
-    //     console.log(resJson);
-    // }
+  async function getData() {
+    console.log(props.roomCode);
+    let url = `/api/join_room?room_code=${props.roomCode}`;
+    let options = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        }
+    }
+    let res = await fetch(url, options);
+    let resJson = await res.json();
+    console.log(resJson);
+    setData(resJson);
+  }
 
-    // useEffect(() => {
-    //     getImages();
-    // }, [])
+  useEffect(() => {
+    getData();
+  }, []);
 
-    return (
-        <div>
-            
-        </div>
-    )
-}
+  return (
+    <div>
+      <p>test</p>
+      <p>{data}</p>
+    </div>
+  );
+};
 
-export default Room
+export default Room;

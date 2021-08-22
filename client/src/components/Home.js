@@ -24,7 +24,9 @@ const Home = (props) => {
       {props.page === "CreateRoom" && (
         <CreateRoom setPage={props.setPage} setRoomCode={props.setRoomCode} />
       )}
-      {props.page === "JoinRoom" && <JoinRoom setPage={props.setPage} />}
+      {props.page === "JoinRoom" && (
+        <JoinRoom setPage={props.setPage} setRoomCode={props.setRoomCode} />
+      )}
     </div>
   );
 };

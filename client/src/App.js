@@ -8,12 +8,12 @@ function App() {
   const [page, setPage] = useState("Home");
   const [roomCode, setRoomCode] = useState("");
 
-  async function getData(url) {
-    let res = await fetch(url);
-    let resJson = await res.json();
-    console.log(resJson);
-    return resJson;
-  }
+  // async function getData(url) {
+  //   let res = await fetch(url);
+  //   let resJson = await res.json();
+  //   console.log(resJson);
+  //   return resJson;
+  // }
 
   return (
     <div>
@@ -27,7 +27,7 @@ function App() {
         />
       )}
       {page === "Instructions" && <Instructions setPage={setPage} />}
-      {page === "Room" && <Room setPage={setPage} />}
+      {page === "Room" && <Room setPage={setPage} roomCode={roomCode} />}
       {page === "Results" && (
         <Results appName="CHANGE THIS" setPage={setPage} />
       )}
