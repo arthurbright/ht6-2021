@@ -32,14 +32,14 @@ const CreateRoom = (props) => {
     let activityTypes = value.map((activity) => {
       return activity.val;
     });
-
+    
     let data = {
-      expected_users: expectedUsers,
+      expected_users: parseInt(expectedUsers),
       email: email,
       location_parameters: {
-        latitude: userLatitude,
-        longitude: userLongitude,
-        radius: maxDist * 1000,
+        latitude: parseFloat(userLatitude),
+        longitude: parseFloat(userLongitude),
+        radius: parseInt(maxDist * 1000),
         types: activityTypes,
         numResults: 10,
       },
