@@ -91,7 +91,7 @@ router.post('/create_room', function(req, res) {
     .then(async function () {
         let choices = []
         let geoData = await geo.getList(location_parameters.latitude, location_parameters.longitude, location_parameters.radius, location_parameters.types, location_parameters.numResults);
-        for(let i = 0; i < geoData.length(); i ++){
+        for(let i = 0; i < geoData.length; i ++){
             choices.push(0);
         }
         
