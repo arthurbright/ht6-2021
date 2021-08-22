@@ -195,11 +195,19 @@ async function closeRoom(data) {
 }
 
 router.get('/view_results', async function(req, res) {
-    let room_code = req.body.room_code;
+    let room_code = req.query.room_code;
     if (!(await hasRoom(room_code))) {
         res.send("Room not found.");
         return;
     }
+    let data = await getRoom(room_code);
+
+    const rankedOptions = [data.options.length];
+    for (let i = 0; i < data.options.length; i++) {
+        rankedOptions[i] = {"options": data.options[i], "votes": data.votes[i]};
+    }
+    rankedOptions.sort((a, b) => b.votes - a.votes);
+    res.send(rankedOptions);
 });
 
 router.delete('/delete_room', async function(req, res) {
