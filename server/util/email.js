@@ -5,7 +5,7 @@ const BONFIRE_EMAIL = "bonfire.noreply@gmail.com";
 var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: email_address,
+        user: BONFIRE_EMAIL,
         pass: process.env.GMAILPWD
     }
 });

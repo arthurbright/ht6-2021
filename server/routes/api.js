@@ -37,7 +37,7 @@ const Rooms = sequelize.define("rooms", {
         type: Sequelize.INTEGER,
     },
     responded_users: {
-        type: Sequelize.JSON,
+        type: Sequelize.ARRAY(Sequelize.TEXT),
     },
     expire: {
         type: Sequelize.DATE,
@@ -55,7 +55,7 @@ const Rooms = sequelize.define("rooms", {
         type: Sequelize.JSON,
     },
     choices: {
-        type: Sequelize.JSON,
+        type: Sequelize.ARRAY(Sequelize.INTEGER),
     },
 });
 
@@ -117,23 +117,66 @@ router.post('/create_room', function(req, res) {
     res.send({"room_code" : room_code});
 });
 
+// Gets a specific room from the database 
+async function getRoom(room_code) {
+    const retrieveStatement = "SELECT * FROM rooms WHERE room_code = '" + room_code + "'";
+    return (await sequelize.query(retrieveStatement))[0][0];
+}
+
+// Changes a room in the database to no longer accept responses
+async function closeRoom(data) {
+    const closeRoomStatement = "UPDATE rooms SET accepting_responses=false WHERE room_code = '" + room_code + "'";
+    await sequelize.query(closeRoomStatement);
+
+    // Send email to host
+    email.sendReminderEmail(data.email, data.room_code);
+}
+
 router.get('/join_room', async function(req, res) {
     let room_code = req.query.room_code;
-
-    // TODO: UPDATE BASED ON LAVANS NEEDS
-    const retrieveStatement = "SELECT * FROM rooms WHERE room_code = '" + room_code + "'";
-    let data = (await sequelize.query(retrieveStatement))[0][0];
-    res.send(data.options);
-
-    console.log(data.options);
-
+    let data = await getRoom(room_code);
+    
+    // If form is open
+    if (data.accepting_responses) {
+        
+        // Close room and direct to results if 24 hours have elapsed
+        if (Date.now > data.expire) {
+            await closeRoom(data);
+            res.send(null);
+        }
+        else {
+            res.send(data.options);
+        }
+    } 
+    else {
+        // Redirect to results page
+        res.send(null);
+    }
 
 });
 
-router.post('/submit_choices', function(req, res) {
-    // TODO
-
+router.post('/submit_choices', async function(req, res) {
+    let respondent_name = req.body.respondent_name;
+    let room_code = req.body.room_code;
+    let data = await getRoom(room_code);
     
+    // Submit votes
+    let votes = req.body.votes;
+    for (let i = 0; i < votes.length; i++) {
+        if (votes[i]) data.choices[i]++;
+    }
+
+    // Add respondent to the list of all respondents
+    const addRespondentName = "UPDATE rooms SET responded_users = ARRAY_APPEND(responded_users, '" + respondent_name + "') WHERE room_code = '" + room_code + "'";
+    await sequelize.query(addRespondentName);
+
+    // Close room if 24 hours have elapsed or if everybody has responded
+    if (Date.now > data.expire || data.responded_users.length >= data.expected_users) {
+        await closeRoom(data);
+    }
+
+    // Redirect user to results page
+    res.send({"room_code" : room_code});
 
 });
 
@@ -146,7 +189,7 @@ router.delete('/delete_room', async function(req, res) {
 
 router.get('/list', (req, res) => {
  
-    //Get our data from CockroachDB
+    // Get data from CockroachDB
     Rooms.sync({force:false,})
     .then(function() {
        return Rooms.findAll();
@@ -159,6 +202,7 @@ router.get('/list', (req, res) => {
 
 router.get('/email', (req, res) => {
     email.sendTestMail();
+    res.send("Email sent!");
 })
 
 module.exports = router;
