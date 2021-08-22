@@ -1,0 +1,231 @@
+body {
+  position: relative;
+}
+
+.background {
+  position: absolute;
+  width: 375px;
+  height: 812px;
+  overflow: hidden;
+  background-color: #114b5f;
+  z-index: -2;
+}
+
+.poly1 {
+  position: absolute;
+  width: 410px;
+  height: 606px;
+  left: 46px;
+  top: 389px;
+
+  background: #1a936f;
+  filter: blur(200px);
+  border-radius: 52px;
+  z-index: -1;
+}
+
+.poly2 {
+  position: absolute;
+  width: 207px;
+  height: 277px;
+  left: -74px;
+  top: 163px;
+  z-index: -1;
+
+  background: #88d498;
+  filter: blur(100px);
+}
+
+.poly3 {
+  position: absolute;
+  width: 513.32px;
+  height: 677.27px;
+  left: 81.79px;
+  top: -339px;
+  z-index: -1;
+
+  background: #1a936f;
+  filter: blur(200px);
+}
+
+.logoBg {
+  position: absolute;
+  width: 247px;
+  height: 247px;
+  left: 63px;
+  top: 62px;
+  border-radius: 50%;
+  z-index: -1;
+
+  background: rgba(252, 244, 227, 0.7);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#logoImg {
+  width: 200px;
+  height: auto;
+}
+
+.homeText {
+  position: absolute;
+  width: 245px;
+  height: 90px;
+  left: 64px;
+  top: 360px;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 30px;
+  /* or 167% */
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  color: #ffffff;
+}
+
+.button {
+  position: absolute;
+  width: 236px;
+  height: 62px;
+  left: 70px;
+
+  border-radius: 18px;
+  border: none;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 30px;
+}
+
+.box {
+  position: absolute;
+  width: 375px;
+  height: 457px;
+  left: 0px;
+  top: 355px;
+
+  background: rgba(252, 244, 227, 0.63);
+  border-radius: 74px 74px 0px 0px;
+}
+
+.joinCode {
+  position: absolute;
+  width: 236px;
+  height: 89px;
+  left: 68px;
+  top: 569px;
+
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 18px;
+  border: none;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 30px;
+  line-height: 30px;
+  color: #88d498;
+  text-align: center;
+}
+
+.joinRoomText {
+  position: absolute;
+  width: 258px;
+  height: 127px;
+  left: 57px;
+  top: 414px;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  line-height: 30px;
+  /* or 100% */
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  color: #ffffff;
+}
+
+.instructionBackground {
+  position: absolute;
+  width: 375px;
+  height: 715px;
+  left: 0px;
+  top: 97px;
+
+  background: rgba(252, 244, 227, 0.63);
+  border-radius: 74px 74px 0px 0px;
+}
+
+.instructionTitle {
+  position: absolute;
+  width: 241px;
+  height: 42px;
+  left: 65px;
+  top: -14px;
+
+  font-family: Aleo;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 48px;
+  text-align: center;
+
+  color: #ffffff;
+
+  text-shadow: 0px 4px 5px rgba(243, 233, 210, 0.25);
+}
+
+.instructionText {
+  position: absolute;
+  width: 216px;
+  height: 30px;
+  left: 78px;
+  top: 170px;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 30px;
+  line-height: 30px;
+  /* identical to box height, or 100% */
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  color: #ffffff;
+}
+
+.instructionIcon {
+  position: absolute;
+  width: 71.65px;
+  height: 71.65px;
+  left: 46px;
+  border-radius: 50%;
+
+  background: rgba(252, 244, 227, 0.57);
+}
+
+.heartIcon {
+  position: absolute;
+  width: 45px;
+  height: 45px;
+  left: 60px;
+  right: 275.03px;
+  top: 301px;
+  bottom: 473.88px;
+  color: rgba(255, 255, 255, 1);
+}

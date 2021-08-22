@@ -1,40 +1,31 @@
 import { useState, useEffect } from "react";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import Home from "./components/Home";
+import Instructions from "./components/Instructions";
+import Room from "./components/Room";
+import Results from "./components/Results";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [page, setPage] = useState("CreateRoom");
 
-  useEffect(() => {
-    async function fetchData() {
-      console.log("test");
-      let res = await fetch("/api/hi", {
-        method: "GET",
-      });
-      let resJson = await res.json();
-      console.log(resJson);
-    }
-    fetchData();
-  }, []);
+  async function getData(url) {
+    let res = await fetch(url);
+    let resJson = await res.json();
+    console.log(resJson);
+    return resJson;
+  }
 
   return (
-    <div className="App">
-      <Header />
-      <p
-        onClick={() => {
-          alert("kachow");
-        }}
-      >
-        Middle
-      </p>
-      <button
-        onClick={() => {
-          setCount(count + 1);
-        }}
-      >
-        {count}
-      </button>
-      <Footer companyTitle="egg inc." />
+    <div>
+      {(page === "Home" || page === "CreateRoom" || page === "JoinRoom") && (
+        <Home appName="CHANGE THIS" page={page} setPage={setPage} />
+      )}
+      {page === "Instructions" && (
+        <Instructions appName="CHANGE THIS" setPage={setPage} />
+      )}
+      {page === "Room" && <Room appName="CHANGE THIS" setPage={setPage} />}
+      {page === "Results" && (
+        <Results appName="CHANGE THIS" setPage={setPage} />
+      )}
     </div>
   );
 }

@@ -1,31 +1,30 @@
-const axios = require('axios');
-require('dotenv').config();
+const axios = require("axios");
+require("dotenv").config();
 
-
-async function getDestinations(lat, long, radius, type){
-    let url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${long}&radius=${radius}&type=${type}&key=${process.env.GOOGLEKEY}`;
-    let query = {
-        method: 'get',
-        url: url,
-        headers: {}
-    }
-    let data = await axios(query);
-    //console.log(data.data.results);
-    return data.data.results;
+async function getDestinations(lat, long, radius, type) {
+  let url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${long}&radius=${radius}&type=${type}&key=${process.env.GOOGLEKEY}`;
+  let query = {
+    method: "get",
+    url: url,
+    headers: {},
+  };
+  let data = await axios(query);
+  //console.log(data.data.results);
+  return data.data.results;
 }
 
-async function getReviews(lat, long, name){
-    //Part 1: find business id from location and name
-    let url = `https://api.yelp.com/v3/businesses/search?term=${name}&latitude=${lat}&longitude=${long}&sort_by=distance&radius=700`;
-    let query = {
-        method: 'get',
-        url: url,
-        headers:{Authorization: "Bearer " + process.env.YELPKEY}
-    }
+async function getReviews(lat, long, name) {
+  //Part 1: find business id from location and name
+  let url = `https://api.yelp.com/v3/businesses/search?term=${name}&latitude=${lat}&longitude=${long}&sort_by=distance&radius=700`;
+  let query = {
+    method: "get",
+    url: url,
+    headers: { Authorization: "Bearer " + process.env.YELPKEY },
+  };
 
-    let data = await axios(query);
-    //data.data.businesses[] contains array of nearby destinations that fit description; the first entry is most accurate
-    /*
+  let data = await axios(query);
+  //data.data.businesses[] contains array of nearby destinations that fit description; the first entry is most accurate
+  /*
     minDistance = 10000;
     minIndex = 0;
     for(let i = 0; i < data.data.businesses.length; i ++){
@@ -35,24 +34,21 @@ async function getReviews(lat, long, name){
         }
     }
     */
-    let id = data.data.businesses[0].alias;
+  let id = data.data.businesses[0].alias;
 
+  //Part 2: fetch reviews using business id
+  let url2 = `https://api.yelp.com/v3/businesses/${id}/reviews`;
 
+  let query2 = {
+    method: "get",
+    url: url2,
+    headers: { Authorization: "Bearer " + process.env.YELPKEY },
+  };
 
-    //Part 2: fetch reviews using business id
-    let url2 = `https://api.yelp.com/v3/businesses/${id}/reviews`
+  let data2 = await axios(query2);
+  //console.log(data2.data.reviews);
 
-    let query2 = {
-        method: 'get',
-        url: url2,
-        headers: {Authorization: "Bearer " + process.env.YELPKEY}
-    }
-
-    let data2 = await axios(query2);
-    //console.log(data2.data.reviews);
-
-
-    return data2.data.reviews;
+  return data2.data.reviews;
 }
 
 async function getList(lat, long, radius, types, numResults){
@@ -110,8 +106,9 @@ async function getList(lat, long, radius, types, numResults){
             resultIds.push(data[j].place_id);
         }
     }
+  }
 
-    return result;
+  return result;
 }
 
 async function getPhoto(reference){
@@ -133,12 +130,7 @@ async function getPhoto(reference){
 
 }
 
-
-
 module.exports.getDestinations = getDestinations;
 module.exports.getReviews = getReviews;
 module.exports.getList = getList;
 module.exports.getPhoto = getPhoto;
-
-
-
