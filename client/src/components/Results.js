@@ -9,7 +9,7 @@ const Results = (props) => {
     let res = await fetch(url);
     let resJson = await res.json();
     setLocations([...resJson]);
-    console.log(locations);
+    // console.log(locations);
   }
 
   document.onload = getData();
@@ -54,19 +54,19 @@ const Results = (props) => {
           FIND ANOTHER ACTIVITY
         </button>
         <div className="first">
-          {(locations[0] && locations[0].options.name) || "Canada's Wonderland"}
+          {(locations[0] && locations[0].options.name) || ""}
         </div>
         <div className="second">
-          {(locations[1] && locations[1].options.name) || "CF Markville"}
+          {(locations[1] && locations[1].options.name) || ""}
         </div>
         <div className="third">
-          {(locations[2] && locations[2].options.name) || "The Hub"}
+          {(locations[2] && locations[2].options.name) || ""}
         </div>
         <div className="fourth">
-          {(locations[3] && locations[3].options.name) || "Boston Pizza"}
+          {(locations[3] && locations[3].options.name) || ""}
         </div>
         <div className="five">
-          {(locations[4] && locations[4].options.name) || "Good Catch"}
+          {(locations[4] && locations[4].options.name) || ""}
         </div>
       </div>
     </div>
