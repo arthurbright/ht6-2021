@@ -84,7 +84,7 @@ router.post('/create_room', function(req, res) {
 
     let room_code = generate_room_code();
     let expected_users = req.body.expected_users;
-    let email = req.body.email;
+    let notif_email = req.body.email;
     let location_parameters = req.body.location_parameters;
 
     Rooms.sync({force: false})
@@ -103,7 +103,7 @@ router.post('/create_room', function(req, res) {
                 responded_users : [],
                 expire : Date.now() + 24 * 60 * 60 * 1000,
                 accepting_responses : true,
-                email : email,
+                email : notif_email,
                 location_parameters : location_parameters,
                 options : geoData,
                 choices : choices
@@ -121,15 +121,6 @@ router.post('/create_room', function(req, res) {
 async function getRoom(room_code) {
     const retrieveStatement = "SELECT * FROM rooms WHERE room_code = '" + room_code + "'";
     return (await sequelize.query(retrieveStatement))[0][0];
-}
-
-// Changes a room in the database to no longer accept responses
-async function closeRoom(data) {
-    const closeRoomStatement = "UPDATE rooms SET accepting_responses=false WHERE room_code = '" + room_code + "'";
-    await sequelize.query(closeRoomStatement);
-
-    // Send email to host
-    email.sendReminderEmail(data.email, data.room_code);
 }
 
 router.get('/join_room', async function(req, res) {
@@ -178,6 +169,19 @@ router.post('/submit_choices', async function(req, res) {
     // Redirect user to results page
     res.send({"room_code" : room_code});
 
+});
+
+// Changes a room in the database to no longer accept responses
+async function closeRoom(data) {
+    const closeRoomStatement = "UPDATE rooms SET accepting_responses=false WHERE room_code = '" + room_code + "'";
+    await sequelize.query(closeRoomStatement);
+
+    // Send email to host
+    email.sendReminderEmail(data.email, data.room_code);
+}
+
+router.get('/view_results', function(req, res) {
+    let room_code = req.body.room_code;
 });
 
 router.delete('/delete_room', async function(req, res) {

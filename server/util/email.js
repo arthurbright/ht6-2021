@@ -29,7 +29,7 @@ function sendReminderEmail(to_address, room_code) {
         // EMAIL CONTENTS GO HERE
         subject: 'Your Bonfire Room',
         text: `Hi there, fellow Bonfire user!\nYour Bonfire room ${room_code} has ended.`,
-        //html: '<h1>Welcome</h1><p>That was easy!</p><img src=https://upload.wikimedia.org/wikipedia/commons/a/a1/Mallard2.jpg/>'
+        //html: '<img src=https://upload.wikimedia.org/wikipedia/commons/a/a1/Mallard2.jpg/>'
     };
 }
 
