@@ -229,3 +229,30 @@ body {
   bottom: 473.88px;
   color: rgba(255, 255, 255, 1);
 }
+
+.selectActivities {
+  position: absolute;
+  width: 236px;
+  height: 62px;
+  left: 68px;
+  top: 451px;
+
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 18px;
+
+  overflow: hidden;
+}
+
+.selectActivitiesText {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 30px;
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  color: #e65527;
+}
