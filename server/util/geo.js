@@ -34,6 +34,9 @@ async function getReviews(lat, long, name) {
         }
     }
     */
+   if(data.data.businesses.length == 0){
+     return [];
+   }
   let id = data.data.businesses[0].alias;
 
   //Part 2: fetch reviews using business id
