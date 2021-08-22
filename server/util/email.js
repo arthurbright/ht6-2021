@@ -31,6 +31,15 @@ function sendReminderEmail(to_address, room_code) {
         text: `Hi there, fellow Bonfire user!\nYour Bonfire room ${room_code} has ended.`,
         //html: '<img src=https://upload.wikimedia.org/wikipedia/commons/a/a1/Mallard2.jpg/>'
     };
+
+    transporter.sendMail(mail, function(error, info) {
+        if (error) {
+            console.log(error);
+        } 
+        else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
 }
 
 function sendTestMail() {

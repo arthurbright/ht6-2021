@@ -240,4 +240,11 @@ router.get('/email', (req, res) => {
     res.send("Email sent!");
 })
 
+
+router.get('/mock_email', (req, res) => {
+    email.sendReminderEmail("bonfire.noreply@gmail.com", "OPTP");
+    res.send("Email sent!");
+})
+
+
 module.exports = router;
