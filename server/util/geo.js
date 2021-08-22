@@ -106,7 +106,7 @@ async function getList(lat, long, radius, types, numResults){
             resultIds.push(data[j].place_id);
         }
     }
-  }
+  
 
   return result;
 }
